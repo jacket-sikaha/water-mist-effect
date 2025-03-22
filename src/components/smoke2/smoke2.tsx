@@ -1,46 +1,6 @@
-import { AnimationEventHandler, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import './index.css';
 
-const SmokeItem = () => {
-  const [{ position, duration, isLeft }, setAaa] = useState({
-    position: Math.random() * 50,
-    duration: Math.random() * 5,
-    isLeft: Math.random() > 0.5
-  });
-
-  const handleAniEnd: AnimationEventHandler<HTMLSpanElement> = (e) => {
-    console.log('handleAniEnd:', handleAniEnd);
-    setAaa({
-      position: Math.random() * 50,
-      duration: Math.random() * 2 + 2,
-      isLeft: Math.random() > 0.5
-    });
-  };
-
-  useEffect(() => {
-    return () => {
-      console.log('useEffect:--------------------');
-    };
-  }, []);
-
-  if (isLeft) {
-    return (
-      <span
-        className="ani"
-        style={{ animationDuration: duration + 's', left: position + 'px' }}
-        onAnimationEnd={handleAniEnd}
-      />
-    );
-  }
-
-  return (
-    <span
-      className="ani2"
-      style={{ animationDuration: duration + 'ms', left: position + 'px' }}
-      onAnimationEnd={handleAniEnd}
-    />
-  );
-};
 function Smoke2() {
   useEffect(() => {
     const ele = document.querySelector('.smoke');

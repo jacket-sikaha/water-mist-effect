@@ -1,60 +1,58 @@
-import { AnimationEventHandler, useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './index.css';
 
 const SmokeItem = ({ delay = 1 }) => {
-  const [{ position, duration, isLeft }, setAaa] = useState({
-    position: Math.random() * 100,
+  console.log('SmokeItem:');
+  const span = useRef<HTMLSpanElement>(null);
+  const [{ position, left, isLeft }, setAaa] = useState({
+    position: Math.random() * 100 - 100,
+    left: Math.random() * 30,
     duration: Math.random() * 5,
     isLeft: Math.random() > 0.5
   });
-  document.querySelector('body')?.animate;
-  const handleAniEnd: AnimationEventHandler<HTMLSpanElement> = (e) => {
-    console.log('handleAniEnd:', handleAniEnd);
-    // setAaa({
-    //   position: Math.random() * 50,
-    //   duration: Math.random() * 2 + 2,
-    //   isLeft: Math.random() > 0.5
-    // });
+  const newspaperSpinning = [
+    {
+      filter: `blur(0)`,
+      opacity: 0
+    },
+    {
+      filter: `blur(6px)`,
+      opacity: 0,
+      transform: `translate(${0}px, -30px) scale(1)`
+    },
+    {
+      filter: `blur(4px)`,
+      opacity: 0.8,
+      transform: `translate(${position / 2}px, -200px) scale(1) rotate(360deg)`
+    },
+    {
+      filter: `blur(4px)`,
+      opacity: 0,
+      transform: `translate(${position + 40}px, -300px) scale(2) rotate(360deg)`
+    }
+  ];
+
+  const newspaperTiming = {
+    duration: 3000,
+    iterations: Infinity
   };
 
   useEffect(() => {
+    const t = setTimeout(() => {
+      span.current?.animate(newspaperSpinning, newspaperTiming);
+    }, delay * 100);
     return () => {
-      console.log('useEffect:--------------------');
+      clearTimeout(t);
     };
   }, []);
 
-  if (isLeft) {
-    return (
-      <span
-        className="ani"
-        style={{ animationDelay: delay * 100 + 'ms', left: position + 'px' }}
-        onAnimationEnd={handleAniEnd}
-      />
-    );
-  }
-
-  return (
-    <span
-      className="ani2"
-      style={{ animationDelay: delay * 50 + 'ms', left: position + 'px' }}
-      onAnimationEnd={handleAniEnd}
-    />
-  );
+  return <span ref={span} style={{ left: left + 'px' }} />;
 };
 function Smoke() {
-  const [list, setList] = useState<number[]>([]);
-  useEffect(() => {
-    // const t = setInterval(() => {
-    //   setList((list) => [...list, Date.now()]);
-    // }, 100);
-    // return () => {
-    //   clearInterval(t);
-    // };
-  }, []);
   return (
     <div className="relative flex items-center h-full">
       <div className="smoke">
-        {new Array(300).fill(0).map((item, i) => (
+        {new Array(500).fill(0).map((item, i) => (
           <SmokeItem key={i} delay={i} />
         ))}
       </div>
