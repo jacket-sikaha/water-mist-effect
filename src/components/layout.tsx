@@ -28,6 +28,7 @@ const Layout = () => {
         aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
         onClick={handleClick}
+        className="text-black dark:text-white"
       >
         <MoreVertIcon />
       </IconButton>
