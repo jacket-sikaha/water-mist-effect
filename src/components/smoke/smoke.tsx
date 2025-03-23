@@ -1,16 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import './index.css';
 
 const SmokeItem = ({ delay = 1 }) => {
   console.log('SmokeItem:');
   const span = useRef<HTMLSpanElement>(null);
-  const [{ position, left, isLeft }, setAaa] = useState({
+  const { position, left } = {
     position: Math.random() * 100 - 100,
-    left: Math.random() * 30,
-    duration: Math.random() * 5,
-    isLeft: Math.random() > 0.5
-  });
-  const newspaperSpinning = [
+    left: Math.random() * 30
+  };
+  const smokeAni = [
     {
       filter: `blur(0)`,
       opacity: 0
@@ -32,14 +30,14 @@ const SmokeItem = ({ delay = 1 }) => {
     }
   ];
 
-  const newspaperTiming = {
+  const aniOpt = {
     duration: 3000,
     iterations: Infinity
   };
 
   useEffect(() => {
     const t = setTimeout(() => {
-      span.current?.animate(newspaperSpinning, newspaperTiming);
+      span.current?.animate(smokeAni, aniOpt);
     }, delay * 100);
     return () => {
       clearTimeout(t);
@@ -52,7 +50,7 @@ function Smoke() {
   return (
     <div className="relative flex items-center h-full">
       <div className="smoke">
-        {new Array(500).fill(0).map((item, i) => (
+        {new Array(500).fill(0).map((_, i) => (
           <SmokeItem key={i} delay={i} />
         ))}
       </div>
