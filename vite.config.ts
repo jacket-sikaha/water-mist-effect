@@ -25,7 +25,7 @@ export default defineConfig(({ command, mode }) => {
         ]
       })
     ],
-    base: '/water-mist-effect/',
+    base: mode === 'development' ? '/' : '/water-mist-effect/',
     server: {
       proxy: {
         // string shorthand: http://localhost:5173/foo -> http://localhost:4567/foo
